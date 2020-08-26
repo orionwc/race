@@ -6,22 +6,30 @@ namespace SpriteKind {
     export const Picture2 = SpriteKind.create()
     export const Picture3 = SpriteKind.create()
     export const picture4 = SpriteKind.create()
+    export const c1 = SpriteKind.create()
+    export const c2 = SpriteKind.create()
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.picture, function (sprite, otherSprite) {
     if (A == 1) {
         A = 0
-        game.showLongText("You'r car will be changed to the pink car. ", DialogLayout.Top)
+        game.showLongText("You'r car will be changed to the red car. ", DialogLayout.Top)
         N = game.askForNumber("1=Yes   2=cancel ", 1)
         if (N == 1) {
             N = 0
-            Player = 3
+            Player = 1
             Reset_from_MENEU()
         }
         N = 0
     }
 })
+sprites.onOverlap(SpriteKind.player3, SpriteKind.c1, function (sprite, otherSprite) {
+    FC1()
+})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     A = 1
+})
+sprites.onOverlap(SpriteKind.player3, SpriteKind.c2, function (sprite, otherSprite) {
+    FC2()
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.picture4, function (sprite, otherSprite) {
     if (A == 1) {
@@ -49,6 +57,7 @@ sprites.onOverlap(SpriteKind.player2, SpriteKind.player3, function (sprite, othe
     game.showLongText("You have crashed!", DialogLayout.Top)
     v2 += -10
     v3 += -10
+    game.showLongText("you'r speeds are now " + v2 + " and " + v3, DialogLayout.Top)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Picture2, function (sprite, otherSprite) {
     if (A == 1) {
@@ -76,7 +85,13 @@ sprites.onOverlap(SpriteKind.player1, SpriteKind.player2, function (sprite, othe
     game.showLongText("You have crashed!", DialogLayout.Top)
     v += -10
     v2 += -10
+    game.showLongText("you'r speeds are now " + v + " and " + v2, DialogLayout.Top)
 })
+function FC2 () {
+    if (change_score == 0) {
+        change_score = 1
+    }
+}
 function player2 () {
     if (Player == 1) {
         controller.moveSprite(mySprite, v, v)
@@ -97,17 +112,233 @@ function player2 () {
     }
 }
 function Reset_from_MENEU () {
-	
+    scene.setBackgroundColor(7)
+    tiles.setTilemap(tiles.createTilemap(hex`0a0007000c0a0c0501060c050106050101070a020a020c02020b0b030d0801040a020202020c020a0a0c0a0209080801040c05010107020c0a0c0a0a020a0c0203010101010108010104`, img`
+        2 2 2 . . . 2 . . . 
+        . . . . 2 . 2 . 2 . 
+        . 2 2 . . . . . 2 . 
+        . . . 2 . 2 2 2 2 . 
+        . . . . . 2 . . . . 
+        . 2 2 2 2 2 . 2 2 . 
+        . . . . . . . . . . 
+        `, [myTiles.transparency16,sprites.vehicle.roadHorizontal,sprites.vehicle.roadVertical,sprites.vehicle.roadTurn3,sprites.vehicle.roadTurn4,sprites.vehicle.roadTurn1,sprites.vehicle.roadTurn2,sprites.vehicle.roadIntersection4,sprites.vehicle.roadIntersection1,sprites.vehicle.roadIntersection2,sprites.castle.tileGrass1,sprites.builtin.forestTiles0,sprites.castle.tileGrass2,sprites.vehicle.roadIntersection3], TileScale.Sixteen))
+    mySprite.setImage(img`
+        . . . . . . e e c c e e . . . . 
+        . . . . . e 2 2 2 2 2 2 e . . . 
+        . . . . 2 c 2 2 2 2 2 2 c 2 . . 
+        . . . e 2 c 4 2 2 2 2 2 c 2 e . 
+        . . . f 2 2 4 2 2 2 2 2 c 2 f . 
+        . . . f 2 2 4 2 2 2 2 2 2 2 f . 
+        . . . f 2 2 4 2 2 2 2 2 2 2 f . 
+        . . . f 2 c 2 4 4 2 2 2 c 2 f . 
+        . . . e 2 c e c c c c e c 2 e . 
+        . . . e 2 e c b b b b c e 2 e . 
+        . . . e 2 e b b b b b b e 2 e . 
+        . . . e e e e e e e e e e e e . 
+        . . . f e d e e e e e e d e f . 
+        . . . f e 2 d e e e e d 2 e f . 
+        . . . f f e e e e e e e e f f . 
+        . . . . f f . . . . . . f f . . 
+        `)
+    mySprite2.setImage(img`
+        . . . . . . 8 8 c c 8 8 . . . . 
+        . . . . . 8 6 6 6 6 6 6 8 . . . 
+        . . . . 6 c 6 6 6 6 6 6 c 6 . . 
+        . . . 8 6 c 9 6 6 6 6 6 c 6 8 . 
+        . . . f 6 6 9 6 6 6 6 6 c 6 f . 
+        . . . f 6 6 9 6 6 6 6 6 6 6 f . 
+        . . . f 6 6 9 6 6 6 6 6 6 6 f . 
+        . . . f 6 c 6 9 9 6 6 6 c 6 f . 
+        . . . 8 6 c 8 c c c c 8 c 6 8 . 
+        . . . 8 6 8 c b b b b c 8 6 8 . 
+        . . . 8 6 8 b b b b b b 8 6 8 . 
+        . . . 8 8 8 8 8 8 8 8 8 8 8 8 . 
+        . . . f 8 d 8 8 8 8 8 8 d 8 f . 
+        . . . f 8 6 d 8 8 8 8 d 6 8 f . 
+        . . . f f 8 8 8 8 8 8 8 8 f f . 
+        . . . . f f . . . . . . f f . . 
+        `)
+    mySprite3.setImage(img`
+        . . . . . . a a c c a a . . . . 
+        . . . . . a 3 3 3 3 3 3 a . . . 
+        . . . . 3 c 3 3 3 3 3 3 c 3 . . 
+        . . . a 3 c d 3 3 3 3 3 c 3 a . 
+        . . . f 3 3 d 3 3 3 3 3 c 3 f . 
+        . . . f 3 3 d 3 3 3 3 3 3 3 f . 
+        . . . f 3 3 d 3 3 3 3 3 3 3 f . 
+        . . . f 3 c 3 d d 3 3 3 c 3 f . 
+        . . . a 3 c a c c c c a c 3 a . 
+        . . . a 3 a c b b b b c a 3 a . 
+        . . . a 3 a b b b b b b a 3 a . 
+        . . . a a a a a a a a a a a a . 
+        . . . f a d a a a a a a d a f . 
+        . . . f a 3 d a a a a d 3 a f . 
+        . . . f f a a a a a a a a f f . 
+        . . . . f f . . . . . . f f . . 
+        `)
+    mySprite4.setImage(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `)
+    mySprite5.setImage(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `)
+    mySprite6.setImage(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `)
+    mySprite7.setImage(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `)
+    mySprite8.setImage(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `)
+    mySprite9.setImage(img`
+        c c c c c c c c c c c c c c c c 
+        b . . . . . . . . . . . . . . b 
+        d . . . . . . . . . . . . . . d 
+        b . . . . . . . . . . . . . . b 
+        b . . . . . . . . . . . . . . b 
+        b . . . . . . . . . . . . . . b 
+        b . . . . . . . . . . . . . . b 
+        b . . . . . . . . . . . . . . b 
+        b . . . . . . . . . . . . . . b 
+        b . . . . . . . . . . . . . . b 
+        b . . . . . . . . . . . . . . b 
+        b . . . . . . . . . . . . . . b 
+        b . . . . . . . . . . . . . . b 
+        d . . . . . . . . . . . . . . d 
+        b . . . . . . . . . . . . . . b 
+        c c c c c c c c c c c c c c c c 
+        `)
+    mySprite10.setImage(img`
+        c c c c c c c c c c c c c c c c 
+        b . . . . . . . . . . . . . . b 
+        d . . . . . . . . . . . . . . d 
+        b . . . . . . . . . . . . . . b 
+        b . . . . . . . . . . . . . . b 
+        b . . . . . . . . . . . . . . b 
+        b . . . . . . . . . . . . . . b 
+        b . . . . . . . . . . . . . . b 
+        b . . . . . . . . . . . . . . b 
+        b . . . . . . . . . . . . . . b 
+        b . . . . . . . . . . . . . . b 
+        b . . . . . . . . . . . . . . b 
+        b . . . . . . . . . . . . . . b 
+        d . . . . . . . . . . . . . . d 
+        b . . . . . . . . . . . . . . b 
+        c c c c c c c c c c c c c c c c 
+        `)
+    mySprite8.setPosition(79, 83)
+    controller.moveSprite(mySprite8, 0, 0)
+    player2()
 }
+sprites.onOverlap(SpriteKind.player1, SpriteKind.c2, function (sprite, otherSprite) {
+    FC2()
+})
+function FC1 () {
+    if (change_score == 1) {
+        info.changeScoreBy(1)
+        change_score = 0
+    }
+}
+sprites.onOverlap(SpriteKind.player2, SpriteKind.c1, function (sprite, otherSprite) {
+    FC1()
+})
 sprites.onOverlap(SpriteKind.player1, SpriteKind.player3, function (sprite, otherSprite) {
     game.showLongText("You have crashed!", DialogLayout.Top)
     v += -10
     v3 += -10
+    game.showLongText("you'r speeds are now " + v + " and " + v3, DialogLayout.Top)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Picture3, function (sprite, otherSprite) {
     if (A == 1) {
-    	
+        A = 0
+        game.showLongText("You'r car will be changed to the blue car. ", DialogLayout.Top)
+        N = game.askForNumber("1=Yes   2=cancel ", 1)
+        if (N == 1) {
+            N = 0
+            Player = 2
+            Reset_from_MENEU()
+        }
+        N = 0
     }
+})
+sprites.onOverlap(SpriteKind.player2, SpriteKind.c2, function (sprite, otherSprite) {
+    FC2()
 })
 function MENEU () {
     meneu += 1
@@ -161,6 +392,42 @@ function MENEU () {
         . . . . . . . . . . . . . . . . 
         `)
     mySprite3.setImage(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `)
+    mySprite9.setImage(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `)
+    mySprite10.setImage(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
@@ -414,16 +681,22 @@ function MENEU () {
         `, SpriteKind.Player)
     mySprite8.setPosition(79, 83)
     controller.moveSprite(mySprite8, 100, 100)
+    game.showLongText("Move arrow then press A to select", DialogLayout.Top)
 }
+sprites.onOverlap(SpriteKind.player1, SpriteKind.c1, function (sprite, otherSprite) {
+    FC1()
+})
+let meneu = 0
 let mySprite8: Sprite = null
 let mySprite7: Sprite = null
 let mySprite6: Sprite = null
 let mySprite5: Sprite = null
 let mySprite4: Sprite = null
-let meneu = 0
 let P = 0
 let N = 0
 let A = 0
+let mySprite10: Sprite = null
+let mySprite9: Sprite = null
 let mySprite3: Sprite = null
 let mySprite2: Sprite = null
 let mySprite: Sprite = null
@@ -431,10 +704,12 @@ let Player = 0
 let v3 = 0
 let v2 = 0
 let v = 0
-scene.setBackgroundColor(9)
-v = 200
-v2 = 200
-v3 = 200
+let change_score = 0
+scene.setBackgroundColor(7)
+change_score = 1
+v = 100
+v2 = 100
+v3 = 100
 let _ = 56
 Player = 1
 mySprite = sprites.create(img`
@@ -494,21 +769,62 @@ mySprite3 = sprites.create(img`
     . . . . f f . . . . . . f f . . 
     `, SpriteKind.player3)
 mySprite3.setPosition(40, _)
+game.showLongText("you'r speed is  " + v, DialogLayout.Bottom)
 let lives = game.askForNumber("How many lives do you want?", 1)
 info.setLife(lives)
-tiles.setTilemap(tiles.createTilemap(hex`0a00070000000000000000000000050101010101010101060205010101010101060207070701010101060202020203010101010402020203010101010101040203010101010101010104`, img`
-    2 2 2 2 2 2 2 2 2 2 
+tiles.setTilemap(tiles.createTilemap(hex`0a0007000c0a0c0501060c050106050101070a020a020c02020b0b030d0801040a020202020c020a0a0c0a0209080801040c05010107020c0a0c0a0a020a0c0203010101010108010104`, img`
+    2 2 2 . . . 2 . . . 
+    . . . . 2 . 2 . 2 . 
+    . 2 2 . . . . . 2 . 
+    . . . 2 . 2 2 2 2 . 
+    . . . . . 2 . . . . 
+    . 2 2 2 2 2 . 2 2 . 
     . . . . . . . . . . 
-    2 2 2 2 . . . . . . 
-    . . . 2 . . . . . . 
-    . . . 2 . . . . . . 
-    . 2 2 2 . . . . . . 
-    . . . . . . . . . . 
-    `, [myTiles.transparency16,sprites.vehicle.roadHorizontal,sprites.vehicle.roadVertical,sprites.vehicle.roadTurn3,sprites.vehicle.roadTurn4,sprites.vehicle.roadTurn1,sprites.vehicle.roadTurn2,sprites.builtin.brick], TileScale.Sixteen))
-MENEU()
+    `, [myTiles.transparency16,sprites.vehicle.roadHorizontal,sprites.vehicle.roadVertical,sprites.vehicle.roadTurn3,sprites.vehicle.roadTurn4,sprites.vehicle.roadTurn1,sprites.vehicle.roadTurn2,sprites.vehicle.roadIntersection4,sprites.vehicle.roadIntersection1,sprites.vehicle.roadIntersection2,sprites.castle.tileGrass1,sprites.builtin.forestTiles0,sprites.castle.tileGrass2,sprites.vehicle.roadIntersection3], TileScale.Sixteen))
+mySprite9 = sprites.create(img`
+    c c c c c c c c c c c c c c c c 
+    b . . . . . . . . . . . . . . b 
+    d . . . . . . . . . . . . . . d 
+    b . . . . . . . . . . . . . . b 
+    b . . . . . . . . . . . . . . b 
+    b . . . . . . . . . . . . . . b 
+    b . . . . . . . . . . . . . . b 
+    b . . . . . . . . . . . . . . b 
+    b . . . . . . . . . . . . . . b 
+    b . . . . . . . . . . . . . . b 
+    b . . . . . . . . . . . . . . b 
+    b . . . . . . . . . . . . . . b 
+    b . . . . . . . . . . . . . . b 
+    d . . . . . . . . . . . . . . d 
+    b . . . . . . . . . . . . . . b 
+    c c c c c c c c c c c c c c c c 
+    `, SpriteKind.c1)
+mySprite9.setPosition(49, 104)
+mySprite10 = sprites.create(img`
+    c c c c c c c c c c c c c c c c 
+    b . . . . . . . . . . . . . . b 
+    d . . . . . . . . . . . . . . d 
+    b . . . . . . . . . . . . . . b 
+    b . . . . . . . . . . . . . . b 
+    b . . . . . . . . . . . . . . b 
+    b . . . . . . . . . . . . . . b 
+    b . . . . . . . . . . . . . . b 
+    b . . . . . . . . . . . . . . b 
+    b . . . . . . . . . . . . . . b 
+    b . . . . . . . . . . . . . . b 
+    b . . . . . . . . . . . . . . b 
+    b . . . . . . . . . . . . . . b 
+    d . . . . . . . . . . . . . . d 
+    b . . . . . . . . . . . . . . b 
+    c c c c c c c c c c c c c c c c 
+    `, SpriteKind.c2)
+mySprite10.setPosition(89, 104)
 if (lives == 1) {
     game.showLongText("You have 1 live", DialogLayout.Top)
 } else {
     game.showLongText("you have " + lives + " lives", DialogLayout.Top)
 }
 player2()
+game.onUpdate(function () {
+    player2()
+})
